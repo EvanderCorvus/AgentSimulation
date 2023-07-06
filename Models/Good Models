@@ -1,0 +1,41 @@
+Without Noise:
+class Agent(nn.Module):
+    def __init__(self, x, y):#initialize agent at location (-0.5,-0.5) with bias 0
+        super(Agent, self).__init__()
+        self.x=x #x coordinate
+        self.y=y #y coordinate
+        
+        # self.theta = tr.tensor(0,dtype=tr.float) #orientation
+        self.flag = False #Flag to check if an agent has reached target area
+        self.winner_index = 0
+        #Layers:
+        self.layers = nn.Sequential(
+            nn.Linear(4+lstm_hidden_size, 16,dtype=tr.float),
+            nn.LeakyReLU(),
+            nn.Linear(16,16,dtype=tr.float),
+            nn.LeakyReLU(),
+            nn.Linear(16,4,dtype=tr.float)
+        )
+
+
+#hyperparameters
+batch_size = 512
+epoch = 200
+t_update = 10
+g = 0.8
+max_steps = 400
+dt = 0.0375 #time step size
+target = [0.5,0]
+deviation = 0.075
+target_area = [[target[0]-deviation,target[0]+deviation],
+               [target[1]-deviation,target[1]+deviation]]
+U0 = 0.4
+lstm_hidden_size = 0#8
+runs = 1
+plt.rcParams.update({'font.size': 13})
+rotational_diffusion = 1
+char_length = 1
+vorticity = 0
+
+
+
